@@ -38,7 +38,6 @@ class ofxPlasticTexture{
         
         resImg = ofVec2f(ofGetWidth(), ofGetHeight());
         
-        f.allocate(resImg.x, resImg.y);
         string shaderFullPath = PATHTOSHADERS;
         shaderFullPath.append( "main" );
         if(shader.load(shaderFullPath))cout << "loaded plastic shader" << endl;
@@ -68,7 +67,6 @@ class ofxPlasticTexture{
     }
     
     ofVec3f resImg;
-    ofFbo f;
     ofPlanePrimitive plane;
     ofxAutoReloadedShader shader;
 

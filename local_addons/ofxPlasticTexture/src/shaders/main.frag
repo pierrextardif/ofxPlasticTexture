@@ -75,14 +75,65 @@ mat2 rotate2d(float angle){
 }
 
 
-float imperfections(vec2 uv, float impurityAmnt){
+float imperfections(vec2 uv, float impurityAmnt, float size){
     
-    uv *= 50;
+    uv *= size;
     
     uv += noise(uv * 2.);
     uv -= noise(uv * .1);
     
-    return 1.0 - smoothstep(.0,impurityAmnt, noise(uv));
+    return 1 - smoothstep(.0,impurityAmnt, noise(uv));
+}
+
+float fold(vec2 originalUvs){
+    
+    vec2 uv = originalUvs;
+    
+    uv.x -= .5 * u_resImg.x / u_resImg.y;
+    uv = .1 * rotate2d( .5 * noise_(uv) ) * uv;
+    
+    float v1 = .2 * (1. - smoothstep(0, .1, abs(sin(uv.x * 2 * M_PI)) * .5));
+    
+    uv = originalUvs;
+    
+    uv.x -= .5 * u_resImg.x / u_resImg.y;
+    uv = .3 * rotate2d( .5 * noise_(uv) ) * uv;
+    v1 += .6 * (1. - smoothstep(0, .005, abs(sin(uv.x * 2 * M_PI))));
+    
+    
+    uv = originalUvs;
+    
+    uv.y -= .3 * u_resImg.x / u_resImg.y;
+    uv = .1 * rotate2d( .04 * noise_(uv) ) * uv;
+    v1 += .2 * (1. - smoothstep(0, .1, abs(sin(uv.y * 2 * M_PI)) * .5));
+    
+    uv = originalUvs;
+    
+    uv.y -= .3 * u_resImg.x / u_resImg.y;
+    uv = .3 * rotate2d( .04 * noise_(uv) ) * uv;
+    v1 += .6 * (1. - smoothstep(0, .005, abs(sin(uv.y * 2 * M_PI)) * .9));
+
+    
+    
+    uv = originalUvs;
+    
+    uv *= 10;
+    uv = .1 * rotate2d( .3 * noise_(uv) ) * uv;
+    
+    float v2 = 1. - smoothstep(0, .1, abs(sin( (uv.x + uv.y * .4) * 2 * M_PI)) * .9);
+    
+    
+    uv = originalUvs;
+    
+    uv *= 10;
+    uv = .1 * rotate2d( .2 * noise_(uv) ) * uv;
+    
+    float v3 = 1. - smoothstep(0, .1, abs(sin((uv.x * .2 + uv.y) * 2 * M_PI)) * .9);
+    
+    float v4 = 1 - smoothstep(0, .1, abs(cos(uv.x * 2 * M_PI)));
+    
+    return (v1 + v2 + v2 + v3) * ( .3 + .7 * v4) + 3. * v4 * v3;
+    return v1;
 }
 
 void main( void )
@@ -90,13 +141,24 @@ void main( void )
     vec2 uv = texCoordVarying;
     uv.x *= u_resImg.x / u_resImg.y;
     
+    
+    uv.y += u_time * 0.001;
+    
+    
     float impurityAmnt = .02;
-    float n = imperfections(uv, impurityAmnt);
+    float size = 50;
+    float n = imperfections(uv, impurityAmnt, size);
+    
+    float waves = .6 * fold(uv);
     
     vec3 color = vec3(0);
+    
+    color += waves;
+    
     color += vec3(n);
-//    color += noise(vec2(uv.x * 61, uv.y * 67)) * noise(uv * u_resImg / 2)* noise(vec2(uv.x * 149, uv.y * 151)) * noise(vec2(uv.x * 433, uv.y * 439));
-    color += .1 * Hash22(vec2(uv.x,uv.y + 0 * fract(0.001 * u_time) ) );
+    color += .1 * Hash22( uv );
+    
+    
     
     outputColor = vec4(color, 1.0);
 }
