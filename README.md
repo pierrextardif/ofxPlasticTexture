@@ -12,7 +12,8 @@ In order to install [OpenFrameworks](https://openframeworks.cc/), find the guide
 
 
 ### Structure
-The addon works with `ofxAutoReloadedShader`, that's the only dependency. It has been added as a local addon in order to get the exact same version.
+The addon works with `ofxAutoReloadedShader`, that's the only dependency. It has been added as a local addon in order to get the exact same version.<br>
+There is only one header for easy reading, and only one shader file too.<br>
 This is only for development purposes as it is the `dev branch`.
 The addon can be used as a local_addon or not, the line 14 of `ofxPlasticTexture.hpp` must be commented out if not used as a local addon:
 ```cpp
