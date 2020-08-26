@@ -7,6 +7,7 @@
 //uniform sampler2DRect       u_tex_unit0;
 uniform float               u_time;
 uniform vec2                u_resImg;
+uniform vec2                u_offset;
 
 
 in vec2 texCoordVarying;
@@ -131,15 +132,17 @@ float globalNoise(vec2 uv){
     
     n += .6 * smoothstep(.4, 1. - .4 * noise(uv), noise(uv));
     n -= .6 * smoothstep(.6, 1. - .2 * noise(uv), noise(uv));
-    n += .1 * smoothstep(.96, 1. - .1 * noise(uv), noise(uv));
+//    n += .1 * smoothstep(.96, 1. - .1 * noise(uv), noise(uv));
     n += .1 * smoothstep(.2, .2 + .4 * noise(uv), noise(uv));
     
     
     float t = .1 * smoothstep(.4, 1. - .4 * noise(uv), noise(uv));
     vec2 nUv = .5 * rotate2d(noise(uv)) * uv;
-    float t1 = .1 * smoothstep(.4, 1. - .4 * noise(nUv), noise(nUv));
-    float lineFold = outlineNoise(uv, t);
-    lineFold = (.2 * t + .8 ) * outlineNoise(uv, t);
+    float t1 = .1 * smoothstep(.4, 1. - .6 * noise(nUv), noise(nUv));
+    float lineFold = 0;
+//    outlineNoise(uv, t);
+    lineFold += (.5 * (1 - t) + .5 ) * outlineNoise(uv, t);
+    lineFold += (.5 * t1 + .5 ) * outlineNoise(uv, t1);
     
     uv = rotate2d(M_PI / 8) * uv;
     lineFold += outlineNoise(uv, t1);
@@ -211,11 +214,8 @@ void main( void )
     uv.x *= u_resImg.x / u_resImg.y;
     
     
-    uv.x += u_time * 0.000;
-    
-    
-    
-//    uv.y += u_time * 0.001;
+    uv += u_offset;
+//    uv.x += u_time * 0.000;
     
     
     float impurityAmnt = .02;
@@ -229,7 +229,7 @@ void main( void )
     
     vec3 color = vec3(0);
     
-    color += lines;
+//    color += lines;
     color += noise;
 //    color += waves;
     

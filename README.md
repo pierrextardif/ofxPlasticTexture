@@ -1,4 +1,4 @@
 # ofxPlasticTexture
 
 
-![.](./Assets/results/day1.png)
+![.](./Assets/results/day2.png)

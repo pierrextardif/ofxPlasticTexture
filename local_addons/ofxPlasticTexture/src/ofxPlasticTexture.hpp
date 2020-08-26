@@ -45,6 +45,7 @@ class ofxPlasticTexture{
         initPlane();
         
         timer = 0.0f;
+        offset = glm::vec2(0,0);
     }
     
     void initPlane(){
@@ -57,6 +58,7 @@ class ofxPlasticTexture{
         
             shader.setUniform2f("u_resImg", resImg.x, resImg.y);
             shader.setUniform1f("u_time", timer);
+            shader.setUniform2f("u_offset", offset);
         plane.draw();
         
     }
@@ -64,6 +66,12 @@ class ofxPlasticTexture{
         shader.end();
         
         timer += .1;
+    }
+    
+    void updateTexture(){
+        offset = glm::vec2(ofRandom(4.), ofRandom(10.));
+        
+        cout << "new offset = " << ofToString(offset) << endl;
     }
     
     void draw(){
@@ -76,6 +84,7 @@ class ofxPlasticTexture{
     
     
     float timer;
+    glm::vec2 offset;
 
 };
 

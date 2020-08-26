@@ -29,4 +29,6 @@ void ofApp::draw()
 
 //--------------------------------------------------------------
 void ofApp::keyPressed(int key) {
+    
+    if(key == ' ')plastic.updateTexture();
 }
