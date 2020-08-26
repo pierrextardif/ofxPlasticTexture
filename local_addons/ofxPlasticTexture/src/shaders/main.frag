@@ -3,11 +3,10 @@
 #define     PI      3.14159265358979323
 #define TWO_PI      6.28318530718
 
-// ==== global ==== //
+// ==== uniforms ==== //
 uniform float               u_time;
 uniform vec2                u_resImg;
 uniform vec2                u_offset;
-uniform int                 u_localAddon;
 
 
 in vec2 texCoordVarying;
@@ -21,6 +20,11 @@ float Hash(vec2 p){
     p += dot(p, p + 5.32);
     return fract(p.x*p.y);
 }
+
+// coming from :
+// https://thebookofshaders.com/11/
+// &&
+// https://www.shadertoy.com/view/4dS3Wd
 
 float noise(vec2 st) {
     
@@ -48,7 +52,7 @@ float random (in vec2 st) {
 }
 
 
-
+// specs
 float imperfections(vec2 uv, float impurityAmnt, float size){
     
     uv *= size;

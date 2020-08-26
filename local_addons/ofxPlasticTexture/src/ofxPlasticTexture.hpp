@@ -23,7 +23,6 @@ using namespace std;
 
 #include <stdio.h>
 #include "ofMain.h"
-#include "ofEvents.h"
 
  // ---- dependency ---- //
 #include "ofxAutoReloadedShader.h"
