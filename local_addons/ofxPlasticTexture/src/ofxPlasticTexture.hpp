@@ -11,7 +11,7 @@
 using namespace std;
 
 // ==== path definition ==== //
-#define LOCALADDON
+//#define LOCALADDON
 
 #ifdef LOCALADDON
     #define PATHTOSHADERS "../../../local_addons/ofxPlasticTexture/src/shaders/"
@@ -23,10 +23,6 @@ using namespace std;
 
 #include <stdio.h>
 #include "ofMain.h"
-#include "ofEvents.h"
-
- // ---- dependency ---- //
-#include "ofxAutoReloadedShader.h"
 
 class ofxPlasticTexture{
     public :
@@ -76,7 +72,7 @@ class ofxPlasticTexture{
     
     ofVec3f resImg;
     ofPlanePrimitive plane;
-    ofxAutoReloadedShader shader;
+    ofShader shader;
     
     
     float timer;
