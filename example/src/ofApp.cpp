@@ -31,4 +31,6 @@ void ofApp::draw()
 void ofApp::keyPressed(int key) {
     
     if(key == ' ')plastic.updateTexture();
+    if(key == 'r')plastic.resetTextureOffset();
+    if(key == 'm')plastic.moveTexture();
 }
