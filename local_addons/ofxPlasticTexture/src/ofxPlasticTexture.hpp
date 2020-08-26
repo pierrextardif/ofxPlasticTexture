@@ -43,6 +43,8 @@ class ofxPlasticTexture{
         if(shader.load(shaderFullPath))cout << "loaded plastic shader" << endl;
         
         initPlane();
+        
+        timer = 0.0f;
     }
     
     void initPlane(){
@@ -54,12 +56,14 @@ class ofxPlasticTexture{
         shader.begin();
         
             shader.setUniform2f("u_resImg", resImg.x, resImg.y);
-            shader.setUniform1f("u_time", ofGetElapsedTimef());
+            shader.setUniform1f("u_time", timer);
         plane.draw();
         
     }
     void end(){
         shader.end();
+        
+        timer += .1;
     }
     
     void draw(){
@@ -69,7 +73,9 @@ class ofxPlasticTexture{
     ofVec3f resImg;
     ofPlanePrimitive plane;
     ofxAutoReloadedShader shader;
-
+    
+    
+    float timer;
 
 };
 
